@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react'
-import { Stats } from '@/types'
-import { apiFetch } from '@/lib/utils'
+import { useMemo } from 'react'
+import { Requirement } from '@/types'
+import { computeStats } from '@/lib/store'
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts'
 
 const PRI_COLORS: Record<string, string> = { Critical: '#ef4444', High: '#f97316', Medium: '#eab308', Low: '#22c55e' }
 
-interface Props { token: string }
+interface Props { requirements: Requirement[] }
 
-export default function AnalyticsPage({ token }: Props) {
-  const [stats, setStats] = useState<Stats | null>(null)
-  useEffect(() => { apiFetch('/stats', {}, token).then(setStats).catch(console.error) }, [token])
-  if (!stats) return <div className='flex items-center justify-center h-64 text-muted-foreground text-sm'>Loading...</div>
+export default function AnalyticsPage({ requirements }: Props) {
+  const stats = useMemo(() => computeStats(requirements), [requirements])
 
   const priorityData = Object.entries(stats.by_priority).map(([name, value]) => ({ name, value, fill: PRI_COLORS[name] || '#888' }))
   const statusData   = Object.entries(stats.by_status).map(([name, value]) => ({ name, value }))
@@ -18,7 +16,11 @@ export default function AnalyticsPage({ token }: Props) {
 
   return (
     <div className='space-y-6'>
-      <div><h1 className='text-xl font-bold'>Analytics</h1><p className='text-sm text-muted-foreground'>Deep dive into requirement metrics</p></div>
+      <div>
+        <h1 className='text-xl font-bold'>Analytics</h1>
+        <p className='text-sm text-muted-foreground'>Deep dive into requirement metrics</p>
+      </div>
+
       <div className='grid md:grid-cols-2 gap-6'>
         <div className='border rounded-lg p-5 bg-card'>
           <h3 className='text-sm font-semibold mb-4'>Priority Distribution</h3>
@@ -28,10 +30,13 @@ export default function AnalyticsPage({ token }: Props) {
               <XAxis dataKey='name' tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
               <Tooltip />
-              <Bar dataKey='value' radius={[4, 4, 0, 0]}>{priorityData.map((e, i) => <Cell key={i} fill={e.fill} />)}</Bar>
+              <Bar dataKey='value' radius={[4, 4, 0, 0]}>
+                {priorityData.map((e, i) => <Cell key={i} fill={e.fill} />)}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
+
         <div className='border rounded-lg p-5 bg-card'>
           <h3 className='text-sm font-semibold mb-4'>Status Overview Radar</h3>
           <ResponsiveContainer width='100%' height={220}>
@@ -44,6 +49,7 @@ export default function AnalyticsPage({ token }: Props) {
             </RadarChart>
           </ResponsiveContainer>
         </div>
+
         <div className='border rounded-lg p-5 bg-card md:col-span-2'>
           <h3 className='text-sm font-semibold mb-4'>Status Breakdown</h3>
           <ResponsiveContainer width='100%' height={200}>
@@ -57,6 +63,7 @@ export default function AnalyticsPage({ token }: Props) {
           </ResponsiveContainer>
         </div>
       </div>
+
       <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
         {Object.entries(stats.by_priority).map(([p, v]) => (
           <div key={p} className='border rounded-lg p-4 bg-card text-center'>
