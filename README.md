@@ -1,19 +1,19 @@
 # 🗂️ Requirements Management Portal
 
-> Production-ready Requirements Management Portal — React (TypeScript) + FastAPI (Python) deployed on Vercel. No database, hardcoded auth, full REST API.
+> A full-stack web app I built to manage and track project requirements — React (TypeScript) frontend with a FastAPI (Python) backend, deployed on Vercel.
 
 ![React](https://img.shields.io/badge/React-18-61dafb?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript) ![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?logo=fastapi) ![Python](https://img.shields.io/badge/Python-3.11-3776ab?logo=python) ![Vercel](https://img.shields.io/badge/Vercel-Deploy-black?logo=vercel)
 
 ## ✨ Features
 
-- 🔐 **Hardcoded Auth** — JWT-based login, no database needed
-- 📋 **Requirements CRUD** — Create, Read, Update, Delete requirements
-- 🏷️ **Priority & Status Tracking** — Critical/High/Medium/Low + Open/In Progress/Done/Closed
-- 🔍 **Search & Filter** — Filter by status, priority, assignee
-- 📊 **Dashboard** — Live stats, progress charts
-- 👥 **Multi-role** — Admin and Viewer roles
-- 💾 **In-memory storage** — FastAPI stores data in-process (resets on restart)
-- 🚀 **Vercel ready** — Frontend + Serverless API
+- 🔐 **JWT Authentication** — Login system with hardcoded credentials (no database needed)
+- 📋 **Requirements CRUD** — Add, view, edit, and delete requirements
+- 🏷️ **Priority & Status Tracking** — Critical / High / Medium / Low + Open / In Progress / Done / Closed
+- 🔍 **Search & Filter** — Filter requirements by status, priority, or assignee
+- 📊 **Dashboard** — Summary stats and progress charts
+- 👥 **Two Roles** — Admin and Viewer access levels
+- 💾 **In-memory Storage** — FastAPI keeps data in-process (resets on restart — good enough for demo)
+- 🚀 **Deployed on Vercel** — Frontend + Serverless API functions
 
 ## 🏗️ Tech Stack
 
@@ -25,9 +25,9 @@
 | Animation | Framer Motion |
 | Backend | FastAPI (Python 3.11) |
 | Auth | JWT (python-jose) |
-| Deploy | Vercel (frontend + serverless) |
+| Deploy | Vercel |
 
-## 🚀 Getting Started
+## 🚀 Running Locally
 
 ```bash
 # Frontend
@@ -41,14 +41,14 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-## 👤 Default Credentials
+## 👤 Login Credentials
 
 | Role | Username | Password |
 |------|----------|----------|
 | Admin | `admin` | `admin123` |
 | Viewer | `viewer` | `viewer123` |
 
-## 📁 Structure
+## 📁 Project Structure
 
 ```
 ├── frontend/          # React + TypeScript
@@ -63,9 +63,9 @@ uvicorn main:app --reload
 └── vercel.json        # Vercel deployment config
 ```
 
-## 🌐 Deploy to Vercel
+## 🌐 Deploy
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Matam-Rohith/requirements-management-portal)
 
 ---
-**Built by [Matam Rohith](https://rohith-portfolio-six.vercel.app/)**
+**Built by [Matam Rohith](https://rohith-portfolio-six.vercel.app/) — CS Engineering Student @ SR University**
